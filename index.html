@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whatsapp</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <div id="app">
+        <!-- whatsapp G -->
+        <div class="container">
+
+            <!-- left side width 30%  -->
+            <div class="left-side">
+                <!-- header  -->
+                <div class="header-left">
+                    <div class="user-info">
+                        <img :src="userAvatar" alt="userName" class="avatar-img">
+                        <h3 class="name-style">{{userName}}</h3>
+                    </div>
+                    <div class="icon">
+                        <a class="fa-solid fa-circle-notch"></a>
+                        <a class="fas fa-comment-dots"></a>
+                        <a class="fa-solid fa-ellipsis-vertical"></a>
+                    </div>
+                </div>
+                <!-- notifaction  -->
+                <div class="notification">
+                    <div class="circle">
+                        <div class="icon p-absolute">
+                            <a class="fas fa-bell"></a>
+                        </div>
+                    </div>
+                    <div>
+                        <a class="a-active">Attiva le notifiche desktop</a>
+                        <p>Ricevi notifiche di nuovi messaggi</p>
+                    </div>
+                </div>
+                <!-- search  -->
+                <div class="search">
+                    <input type="text" placeholder="Search or start new chat">
+                    <div class="icon">
+                        <a class="fas fa-search"></a>
+                    </div>
+                </div>
+                <!-- chat list  -->
+                <div class="chat-list">
+                    <div class="chat" v-for="(contact, index) in contacts" @click="selectContact(contact)">
+                        <img :src="contact.avatar" alt="contact.name" class="avatar-img">
+                        <div class="info-contact">
+                            <h3 class="name-style">{{contact.name}}</h3>
+                            <!-- status  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ******************************* -->
+            <!-- right side width 70%  -->
+            <div class="right-side">
+                <div class="right-header">
+                    <div class="contact-info">
+                        <img :src="selectedContact.avatar" alt="selectedContact.name" class="avatar-img">
+                        <div>
+                            <h3>{{ selectedContact.name }}</h3>
+                            <p>{{ selectedContact.lastAccess }}</p>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <a class="fas fa-search"></a>
+                        <a class="fa-solid fa-paperclip"></a>
+                        <a class="fas fa-ellipsis-v"></a>
+                    </div>
+                </div>
+                <!-- main chat -->
+                <div class="main-right">
+                    <div class="message" v-for="(message, index) in selectedContact.messages" :key="index" :class="{'message-sent': isSentMessage(message), 'message-received': !isSentMessage(message)}">
+                        <p>{{ message.message }}</p>
+                        <span>{{ message.date }}</span>
+                    </div>
+                </div>
+
+                <!-- bottom bar -->
+                <div class="bottom-bar-right">
+                    <div class="icon">
+                        <a class="fas fa-smile"></a>
+                        <a class="fas fa-paperclip"></a>
+                    </div>
+                    <div class="input-message">
+                        <input class="input" type="text" placeholder="Type a message">
+                        <div class="icon-justify-end">
+                            <a class="fab fa-telegram-plane" @click="sendMessage(index)"></a>
+                        </div>
+                    </div>
+                    <div class="icon">
+                        <a class="fas fa-microphone"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
