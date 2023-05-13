@@ -174,6 +174,7 @@ ul {
     outline: none;
     font-size: 1rem;
     color: var(--dark-color);
+
 }
 
 .search input::placeholder {
@@ -236,7 +237,7 @@ ul {
     align-items: flex-start;
 }
 
-.last-message {
+/* .last-message {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -246,7 +247,7 @@ ul {
 .last-message p {
     font-size: 0.8rem;
     color: var(--dark-color);
-}
+} */
 
 /*********/
 /* RIGHT */
@@ -296,7 +297,8 @@ ul {
     gap: 1rem;
     padding: 1rem;
     display: flex;
-    width: 30%;
+    width: auto;
+    max-width: 25rem
 }
 
 .message-received {
@@ -309,6 +311,10 @@ ul {
     align-self: flex-end;
 }
 
+.message-date {
+    font-size: 0.8rem;
+    color: var(--dark-color);
+}
 /* .new-message {
     height: 5rem;
     display: flex;
@@ -316,6 +322,34 @@ ul {
     align-items: center;
     justify-content: center;
 } */
+
+.dropdown-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--light-color);
+    position: relative;
+    margin-left: 1rem;
+}
+
+.dropdown-icon:hover {
+    opacity: 0.8;
+}
+
+.dropdown-menu {
+    /* simple dropdwon  */
+    /* display: none; */
+    /* dropdown with animation */
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    width: 15rem;
+    background-color: var(--light-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease-in-out;
+
+}
 
 /**********/
 /* BOTTOM */
