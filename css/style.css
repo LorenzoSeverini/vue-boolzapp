@@ -3,10 +3,12 @@
 {
     --primary-color: #eaeaea;
     --secondary-color: #8edafc;
-    --light-color: #fff;
+    --light-color: #493c3c;
     --dark-color: #464141;
     --danger-color: #dc3545;
     --success-color: #d5f9ba;
+    --ultra-white: #f5ecec;
+    --always-dark: #1b1515;
 }
 
 ::after,
@@ -23,7 +25,7 @@ body {
     line-height: 1.5;
     color: var(--light-dark);
     font-family: sans-serif;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background: rgb(0,150,136);
     background: -moz-linear-gradient(180deg, rgba(0,150,136,1) 12%, rgba(218,219,212,1) 12%);
@@ -45,10 +47,13 @@ body {
     /* change all color settting */
     --primary-color: #3a3737;
     --secondary-color: #b8be79;
-    --light-color: #3b4a57;
+    --light-color: #92857e;
     --dark-color: #5f5d5d;
     --danger-color: #2d4d42;
     --success-color: #b8be79;
+    /* change body color */
+    background-color: var(--dark-color);
+    color: var(--light-color);
 }
 
 .toogle-mode-dark {
@@ -63,8 +68,6 @@ body {
     color: var(--primary-color);
 }
 
-
-  
 .container {
     max-width: 75rem;
     margin: 0 auto;
@@ -72,6 +75,7 @@ body {
     -webkit-box-shadow: 0 9px 5.5px -5.5px #464545;
     -moz-box-shadow: 0 9px 5.5px -5.5px #464545;
     box-shadow: 0 9px 5.5px -5.5px #464545;
+
 }
 
 a {
@@ -82,7 +86,6 @@ a {
     color: var(--danger-color);
     text-decoration: underline;
     cursor: pointer;
-
 }
 
 ul {
@@ -119,22 +122,10 @@ ul {
     transition: all 0.3s ease-in-out;
 }
 
-.icon-justify-end,
-.icon:hover {
-    opacity: 0.8;
-}
-
 .icon-justify-end a,
 .icon a {
     font-size: 1.5rem;
-    color: var(--dark-color);
-}
-
-.name-style-user {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--dark-color);
-    margin-left: 1rem;
+    color: var(--always-dark);
 }
  
 /*********/
@@ -158,8 +149,15 @@ ul {
     justify-content: start;
     align-items: center;
     padding: 1rem;
-    border-bottom: 1px solid var(--dark-color);
+    border-bottom: 1px solid var(--primary-color);
     cursor: pointer;
+}
+
+.name-style-user {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--dark-color);
+    margin-left: 1rem;
 }
 
 .user-info {
@@ -209,7 +207,7 @@ ul {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: var(--light-color);
+    background-color: var(--primary-color);
     position: relative;
     margin-left: 1rem;
 }
@@ -292,7 +290,6 @@ ul {
 .last-message-chat-list {
     font-size: 0.8rem;
     font-weight: 400;
-    color: var(--dark-color);
 }
 
 .message-time {
@@ -356,7 +353,7 @@ ul {
 }
 
 .message-received {
-    background-color: var(--light-color);
+    background-color: var(--ultra-white);
     align-self: flex-start; 
 }
 
@@ -423,7 +420,7 @@ ul {
     align-items: center;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
-    background-color: var(--light-color);
+    background-color: var(--ultra-white);
 }
 
 .input {
