@@ -9,13 +9,13 @@ const app = createApp({
             // user Avatar
             userName: 'Sonia',
             userAvatar: 'img/avatar_io.jpg',
-            // last message sent
-            lastMessageSent: 'Ultimo messaggio inviato',
-            // last hour message sent
-            hourSentLastMessage : '11:00',
             // notification
             activeNotification: 'Attiva le notifiche desktop',
             reciveNotification: 'Ricevi notifiche desktop',
+            // last message sent
+            lastMessageText: '', 
+            // last hour message sent
+            hourSentLastMessage: '', 
             // *****************************
             // selected contact
             selectedContact: null,
@@ -199,12 +199,16 @@ const app = createApp({
             ],
         }
     },
+
     methods: {
 
     // Function select contact 
     selectContact(contact) {
         this.selectedContact = contact;
         console.log("contatto selezionato", this.selectedContact);
+
+        this.lastMessageText = this.lastMessage(contact);
+        this.hourSentLastMessage = this.hourSent(contact);
     },
 
     // Function to define if a message is sent or received
@@ -215,11 +219,11 @@ const app = createApp({
     // Function to send a new message
     sendMessage() {
         if (this.newMessage.trim() === '') {
-          return; // Don't send empty messages
+            return; // Don't send empty messages
         } else if (this.selectedContact === null) {
-          return; // Don't send messages if no contact is selected
+            return; // Don't send messages if no contact is selected
         } else if (this.selectedContact === undefined) {
-          return; // Don't send messages if no contact is selected
+            return; // Don't send messages if no contact is selected
         }
       
         const newMessageObj = {
@@ -240,31 +244,56 @@ const app = createApp({
             this.selectedContact.messages.push(receivedMessageObj);
         }, 2000); // Delay the received message by 2 seconds
     },
-      
+
+    // Function to format the date
     formatTime(date) {
         const messageDate = new Date(date);
         if (isNaN(messageDate.getTime())) {
-          return ''; // Handle invalid dates
-        }
+            return '';
+        } 
         return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     },
 
-    // Cancella messaggio: cliccando sul messaggio appare un menu a tendina che permette di cancellare il messaggio selezionato
+    // Function to delete a message
     deleteMessage(contact, messageIndex) {
         contact.messages.splice(messageIndex, 1);
-    },    
+    }, 
+
     // Function to toggle the dropdown menu
     toggleDropdown(message) {
         message.showDropdown = !message.showDropdown;
     },
-},
+
+    // Function to show in the chat list the last message  
+    lastMessage(contact) {
+        const lastMessage = contact.messages[contact.messages.length - 1];
+        if (lastMessage) {
+            return `${lastMessage.message}`;
+        }
+        return '';
+    },
+
+    // Function to show in the chat list the last message's hour
+    hourSent(contact) {
+        const lastMessage = contact.messages[contact.messages.length - 1];
+        if (lastMessage) {
+            return `${lastMessage.date}`;
+        }
+        return '';
+    }   
+    },
+
     // created function to select the first contact
     created() {
+        
         if (this.contacts.length > 0) {
           this.selectContact(this.contacts[0]);
         }
     },
+
     computed: {
+
+        // Function to filter contacts
         filteredContacts() {
             if (!this.searchText) {
                 return this.contacts;
