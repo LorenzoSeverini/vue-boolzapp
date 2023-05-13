@@ -24,7 +24,7 @@
                 <div class="header-left">
                     <div class="user-info">
                         <img :src="userAvatar" alt="userName" class="avatar-img">
-                        <h3 class="name-style">{{userName}}</h3>
+                        <h3 class="name-style">{{ userName }}</h3>
                     </div>
                     <div class="icon">
                         <a class="fa-solid fa-circle-notch"></a>
@@ -40,13 +40,14 @@
                         </div>
                     </div>
                     <div>
-                        <a class="a-active">Attiva le notifiche desktop</a>
-                        <p>Ricevi notifiche di nuovi messaggi</p>
+                        <a class="a-active">{{ activeNotification }}</a>
+                        <p>{{ reciveNotification }}</p>
                     </div>
                 </div>
                 <!-- search  -->
                 <div class="search">
                     <input type="text" placeholder="Search or start new chat">
+                    <!-- Display the contacts -->
                     <div class="icon">
                         <a class="fas fa-search"></a>
                     </div>
@@ -56,8 +57,11 @@
                     <div class="chat" v-for="(contact, index) in contacts" @click="selectContact(contact)">
                         <img :src="contact.avatar" alt="contact.name" class="avatar-img">
                         <div class="info-contact">
-                            <h3 class="name-style">{{contact.name}}</h3>
-                            <!-- status  -->
+                            <h3 class="name-style">{{ contact.name }}</h3>
+                            <p>{{ lastMessageSent }}</p>
+                        </div>
+                        <div>
+                            <span class="message-time">{{ hourSentLastMessage }}</span>
                         </div>
                     </div>
                 </div>
@@ -70,7 +74,7 @@
                         <img :src="selectedContact.avatar" alt="selectedContact.name" class="avatar-img">
                         <div>
                             <h3>{{ selectedContact.name }}</h3>
-                            <p>{{ selectedContact.lastAccess }}</p>
+                            <p>{{ lastAccess }}</p>
                         </div>
                     </div>
                     <div class="icon">
@@ -83,7 +87,18 @@
                 <div class="main-right">
                     <div class="message" v-for="(message, index) in selectedContact.messages" :key="index" :class="{'message-sent': isSentMessage(message), 'message-received': !isSentMessage(message)}">
                         <p>{{ message.message }}</p>
-                        <span>{{ message.date }}</span>
+                        <div>
+                            <span class="message-time">{{ formatTime(message.date) }}</span>
+                            <span class="dropdown-icon" @click="toggleDropdown(message)">
+                                <a class="fas fa-chevron-down"></a>
+                            </span>
+                            <div class="dropdown-menu" v-if="message.showDropdown">
+                                <ul>
+                                    <li @click="deleteMessage(selectedContact, messageIndex)">Delete Message</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -94,9 +109,9 @@
                         <a class="fas fa-paperclip"></a>
                     </div>
                     <div class="input-message">
-                        <input class="input" type="text" placeholder="Type a message">
+                        <input v-model="newMessage" class="input" type="text" placeholder="Type a message">
                         <div class="icon-justify-end">
-                            <a class="fab fa-telegram-plane" @click="sendMessage(index)"></a>
+                            <a class="fab fa-telegram-plane"  @click="sendMessage"></a>
                         </div>
                     </div>
                     <div class="icon">
