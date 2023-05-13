@@ -9,11 +9,20 @@ const app = createApp({
             // user Avatar
             userName: 'Sonia',
             userAvatar: 'img/avatar_io.jpg',
+            // last message sent
+            lastMessageSent: 'Ultimo messaggio inviato',
+            // last hour message sent
+            hourSentLastMessage : '11:00',
+            // notification
+            activeNotification: 'Attiva le notifiche desktop',
+            reciveNotification: 'Ricevi notifiche desktop',
             // *****************************
             // selected contact
             selectedContact: null,
             // last access
             lastAccess: 'Ultimo accesso oggi alle 12',
+            // new message
+            newMessage: '',
             // contacts
             contacts: [
                 {
@@ -189,14 +198,61 @@ const app = createApp({
         }
     },
     methods: {
+
     // Function select contact 
     selectContact(contact) {
         this.selectedContact = contact;
         console.log("contatto selezionato", this.selectedContact);
     },
+
     // Function to define if a message is sent or received
     isSentMessage(message) {
         return message.status === 'sent';
+    },
+
+    // Function to send a new message
+    sendMessage() {
+        if (this.newMessage.trim() === '') {
+          return; // Don't send empty messages
+        } else if (this.selectedContact === null) {
+          return; // Don't send messages if no contact is selected
+        } else if (this.selectedContact === undefined) {
+          return; // Don't send messages if no contact is selected
+        }
+      
+        const newMessageObj = {
+            date: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit' }),
+            message: this.newMessage,
+            status: 'sent',
+        };
+      
+        this.selectedContact.messages.push(newMessageObj);
+        this.newMessage = ''; // Clear the input field
+      
+        setTimeout(() => {
+            const receivedMessageObj = {
+                date: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit' }),
+                message: 'GG Bro',
+                status: 'received',
+            };
+            this.selectedContact.messages.push(receivedMessageObj);
+        }, 2000); // Delay the received message by 2 seconds
+    },
+      
+    formatTime(date) {
+        const messageDate = new Date(date);
+        if (isNaN(messageDate.getTime())) {
+          return ''; // Handle invalid dates
+        }
+        return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    },
+
+    // Cancella messaggio: cliccando sul messaggio appare un menu a tendina che permette di cancellare il messaggio selezionato
+    deleteMessage(contact, messageIndex) {
+        contact.messages.splice(messageIndex, 1);
+    },    
+    toggleDropdown(message) {
+        message.showDropdown = !message.showDropdown;
     },
 },
     // created function to select the first contact
