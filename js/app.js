@@ -5,13 +5,19 @@ const { createApp } = Vue;
 const app = createApp({
     data() {
         return {
-            
+            // dark mode
+            darkMode: false,
             // user Avatar
             userName: 'Sonia',
             userAvatar: 'img/avatar_io.jpg',
+            // dropdown icon left header
+            circleDropdownActive: false,
+            commentDropdownActive: false,
+            ellipsisDropdownActive: false,
             // notification
-            activeNotification: 'Attiva le notifiche desktop',
             reciveNotification: 'Ricevi notifiche desktop',
+            activeMessage: 'Attiva le notifiche desktop',
+            inactiveMessage: 'Disattiva le notifiche desktop',
             // last message sent
             lastMessageText: '', 
             // last hour message sent
@@ -20,11 +26,15 @@ const app = createApp({
             // selected contact
             selectedContact: null,
             // last access
-            lastAccess: 'Ultimo accesso oggi alle 12',
+            lastAccess: 'Ultimo accesso oggi alle 12:00',
             // new message
             newMessage: '',
             // search contact
             searchText: '',
+            // active bell
+            isBellActive: false,
+            // active menu
+            notificationActive: true,
             // contacts
             contacts: [
                 {
@@ -202,6 +212,11 @@ const app = createApp({
 
     methods: {
 
+    // Dark mode function
+    toggleDarkMode() {
+        this.darkMode = !this.darkMode;
+    },
+
     // Function select contact 
     selectContact(contact) {
         this.selectedContact = contact;
@@ -223,8 +238,8 @@ const app = createApp({
         } else if (this.selectedContact === null) {
             return; // Don't send messages if no contact is selected
         } else if (this.selectedContact === undefined) {
-            return; // Don't send messages if no contact is selected
-        }
+            return; // Don't send messages if no contact is selected   
+        } 
       
         const newMessageObj = {
             date: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit' }),
@@ -245,6 +260,12 @@ const app = createApp({
         }, 2000); // Delay the received message by 2 seconds
     },
 
+    handleKeyDown(event) {
+        if (event.key === 'Enter') {
+          this.sendMessage(); // Call the correct method name: sendMessage()
+        }
+    },
+
     // Function to format the date
     formatTime(date) {
         const messageDate = new Date(date);
@@ -256,9 +277,16 @@ const app = createApp({
 
     // Function to delete a message
     deleteMessage(contact, messageIndex) {
-        contact.messages.splice(messageIndex, 1);
-    }, 
-
+        // Check if the contact object exists and has a messages property
+        if (contact && contact.messages) {
+            // Check if the messageIndex is within the valid range
+            if (messageIndex >= 0 && messageIndex < contact.messages.length) {
+                // Remove the message at the specified index
+                contact.messages.splice(messageIndex, 1);
+            }
+        }
+    },
+    
     // Function to toggle the dropdown menu
     toggleDropdown(message) {
         message.showDropdown = !message.showDropdown;
@@ -280,18 +308,37 @@ const app = createApp({
             return `${lastMessage.date}`;
         }
         return '';
-    }   
     },
+
+    // Function to toggle the bell icon
+    toggleBell() {
+        this.isBellActive = !this.isBellActive;
+        this.notificationActive = !this.notificationActive;
+    },
+},
 
     // created function to select the first contact
     created() {
-        
+
         if (this.contacts.length > 0) {
           this.selectContact(this.contacts[0]);
-        }
+        } 
+    
+        window.addEventListener('keydown', (event) => this.handleKeyDown(event));
     },
 
     computed: {
+
+        // Function to show the dropdown menu on click icon left header
+        circleTooltip() {
+            return this.circleDropdownActive ? 'Hide circle dropdown' : 'Show circle dropdown';
+        },
+          commentTooltip() {
+            return this.commentDropdownActive ? 'Hide comment dropdown' : 'Show comment dropdown';
+        },
+          ellipsisTooltip() {
+            return this.ellipsisDropdownActive ? 'Hide ellipsis dropdown' : 'Show ellipsis dropdown';
+        },
 
         // Function to filter contacts
         filteredContacts() {
@@ -300,6 +347,15 @@ const app = createApp({
             }
             const search = this.searchText.toLowerCase();
             return this.contacts.filter(contact => contact.name.toLowerCase().includes(search));
+        },
+
+        // Function to show the notification
+        notificationText() {
+            return this.notificationActive ? this.activeMessage : this.inactiveMessage;
+        },
+        // Function to show the tooltip
+        tooltipMessage() {
+            return this.isBellActive ? 'Clicca per disattivare le notifiche' : 'Clicca per attivare le notifiche';
         },
     },
 });
