@@ -36,17 +36,17 @@
                 <div class="notification">
                     <div class="circle">
                         <div class="icon p-absolute">
-                            <a class="fa-solid fa-bell-slash"></a>
+                            <a :class="['fas', isBellActive ? 'fa-bell' : 'fa-bell-slash']" @click="toggleBell" :title="tooltipMessage"></a>
                         </div>
                     </div>
                     <div>
-                        <a class="a-active">{{ activeNotification }}</a>
+                        <a class="a-active" :class="['notification', notificationActive ? 'active' : 'inactive']">{{ notificationText }}</a>
                         <p>{{ reciveNotification }}</p>
                     </div>
                 </div>
                 <!-- search  -->
                 <div class="search">
-                    <input type="text" v-model="searchText" placeholder="Search or start new chat">
+                    <input type="text" v-model="searchText" placeholder="Cerca una chat">
                     <!-- Display the contacts -->
                     <div class="icon">
                         <a class="fas fa-search"></a>
@@ -98,7 +98,8 @@
                             </span>
                             <div class="dropdown-menu" v-if="message.showDropdown">
                                 <ul>
-                                    <li @click="deleteMessage(selectedContact, messageIndex)">Delete Message</li>
+                                    <li @click="deleteMessage(contact, messageIndex)">Cancella messaggio</li>
+                                    <li>Info</li>
                                 </ul>
                             </div>
                         </div>
@@ -113,7 +114,7 @@
                         <a class="fas fa-paperclip"></a>
                     </div>
                     <div class="input-message">
-                        <input v-model="newMessage" class="input" type="text" placeholder="Type a message">
+                        <input v-model="newMessage" class="input" type="text" placeholder="Scrivi un messaggio">
                         <div class="icon-justify-end">
                             <a class="fab fa-telegram-plane"  @click="sendMessage"></a>
                         </div>
