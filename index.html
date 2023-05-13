@@ -58,7 +58,7 @@
                         <img :src="contact.avatar" alt="contact.name" class="avatar-img">
                         <div class="info-contact">
                             <h3 class="name-style">{{ contact.name }}</h3>
-                            <p>{{ lastMessage(contact) }}</p>
+                            <p class="last-message">{{ lastMessage(contact) }}</p>
                         </div>
                         <div>
                             <span class="message-time">{{ hourSent(contact) }}</span>
@@ -66,7 +66,11 @@
                     </div>
                 </div>
             </div>
+
             <!-- ******************************* -->
+            <!-- ******************************* -->
+            <!-- ******************************* -->
+
             <!-- right side width 70%  -->
             <div class="right-side">
                 <div class="right-header">

@@ -217,18 +217,6 @@ ul {
     background-color: var(--secondary-color);
 }
 
-.chat img {
-    width: 15%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.chat img:hover {
-    opacity: 0.8; 
-}
-
 .info-contact {
     width: 100%;
     display: flex;
@@ -237,17 +225,13 @@ ul {
     align-items: flex-start;
 }
 
-/* .last-message {
+.last-message {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.last-message p {
-    font-size: 0.8rem;
-    color: var(--dark-color);
-} */
 
 /*********/
 /* RIGHT */
