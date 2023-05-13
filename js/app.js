@@ -23,6 +23,8 @@ const app = createApp({
             lastAccess: 'Ultimo accesso oggi alle 12',
             // new message
             newMessage: '',
+            // search contact
+            searchText: '',
             // contacts
             contacts: [
                 {
@@ -251,6 +253,7 @@ const app = createApp({
     deleteMessage(contact, messageIndex) {
         contact.messages.splice(messageIndex, 1);
     },    
+    // Function to toggle the dropdown menu
     toggleDropdown(message) {
         message.showDropdown = !message.showDropdown;
     },
@@ -260,6 +263,15 @@ const app = createApp({
         if (this.contacts.length > 0) {
           this.selectContact(this.contacts[0]);
         }
+    },
+    computed: {
+        filteredContacts() {
+            if (!this.searchText) {
+                return this.contacts;
+            }
+            const search = this.searchText.toLowerCase();
+            return this.contacts.filter(contact => contact.name.toLowerCase().includes(search));
+        },
     },
 });
 app.mount('#app');
