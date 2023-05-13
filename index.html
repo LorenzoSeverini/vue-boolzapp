@@ -36,7 +36,7 @@
                 <div class="notification">
                     <div class="circle">
                         <div class="icon p-absolute">
-                            <a class="fas fa-bell"></a>
+                            <a class="fa-solid fa-bell-slash"></a>
                         </div>
                     </div>
                     <div>
@@ -46,7 +46,7 @@
                 </div>
                 <!-- search  -->
                 <div class="search">
-                    <input type="text" placeholder="Search or start new chat">
+                    <input type="text" v-model="searchText" placeholder="Search or start new chat">
                     <!-- Display the contacts -->
                     <div class="icon">
                         <a class="fas fa-search"></a>
@@ -54,7 +54,7 @@
                 </div>
                 <!-- chat list  -->
                 <div class="chat-list">
-                    <div class="chat" v-for="(contact, index) in contacts" @click="selectContact(contact)">
+                    <div class="chat" v-for="(contact, index) in filteredContacts" @click="selectContact(contact)">
                         <img :src="contact.avatar" alt="contact.name" class="avatar-img">
                         <div class="info-contact">
                             <h3 class="name-style">{{ contact.name }}</h3>
