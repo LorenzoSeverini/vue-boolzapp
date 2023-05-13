@@ -311,10 +311,11 @@ ul {
     align-self: flex-end;
 }
 
-.message-date {
+.message-time {
     font-size: 0.8rem;
     color: var(--dark-color);
 }
+
 /* .new-message {
     height: 5rem;
     display: flex;
