@@ -326,30 +326,36 @@ ul {
 .dropdown-icon {
     width: 2rem;
     height: 2rem;
-    border-radius: 50%;
-    background-color: var(--light-color);
     position: relative;
     margin-left: 1rem;
+    cursor: pointer;
 }
 
 .dropdown-icon:hover {
     opacity: 0.8;
 }
 
-.dropdown-menu {
-    /* simple dropdwon  */
-    /* display: none; */
-    /* dropdown with animation */
+.dropdown-icon .dropdown-menu {
+    width: 10rem;
+    height: 10rem;
     position: absolute;
-    top: 3rem;
+    top: 100%;
     right: 0;
-    width: 15rem;
-    background-color: var(--light-color);
+    background-color: var(--dark-color);
     border-radius: 0.5rem;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     padding: 1rem;
-    transition: all 0.3s ease-in-out;
-
 }
+
+.dropdown-icon:hover .dropdown-menu {
+    display: flex;
+    cursor: pointer;
+}
+
 
 /**********/
 /* BOTTOM */
@@ -385,15 +391,6 @@ ul {
     color: var(--dark-color);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+.input::placeholder {
+    color: var(--dark-color);
+}
