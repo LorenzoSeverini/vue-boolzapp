@@ -13,120 +13,123 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    
     <div id="app">
         <!-- whatsapp G -->
         <div class="container">
 
             <!-- left side width 30%  -->
-            <div class="left-side">
-                <!-- header  -->
-                <div class="header-left">
-                    <div class="user-info">
-                        <img :src="userAvatar" alt="userName" class="avatar-img">
-                        <h3 class="name-style">{{ userName }}</h3>
-                    </div>
-                    <div class="icon">
-                        <a class="fa-solid fa-circle-notch"></a>
-                        <a class="fas fa-comment-dots"></a>
-                        <a class="fa-solid fa-ellipsis-vertical"></a>
-                    </div>
-                </div>
-                <!-- notifaction  -->
-                <div class="notification">
-                    <div class="circle">
-                        <div class="icon p-absolute">
-                            <a :class="['fas', isBellActive ? 'fa-bell' : 'fa-bell-slash']" @click="toggleBell" :title="tooltipMessage"></a>
+            <div :class="{ 'app': true, 'dark-mode': darkMode }">
+                <div class="left-side">
+                    <!-- header  -->
+                    <div class="header-left">
+                        <div class="user-info">
+                            <img :src="userAvatar" alt="userName" class="avatar-img">
+                            <h3 class="name-style-user">{{ userName }}</h3>
+                        </div>
+                        <div class="icon">
+                            <a class="fa-solid fa-circle-notch"></a>
+                            <a class="fas fa-comment-dots"></a>
+                            <a class="fa-solid fa-ellipsis-vertical"></a>
                         </div>
                     </div>
-                    <div>
-                        <a class="a-active" :class="['notification', notificationActive ? 'active' : 'inactive']">{{ notificationText }}</a>
-                        <p>{{ reciveNotification }}</p>
-                    </div>
-                </div>
-                <!-- search  -->
-                <div class="search">
-                    <input type="text" v-model="searchText" placeholder="Cerca una chat">
-                    <!-- Display the contacts -->
-                    <div class="icon">
-                        <a class="fas fa-search"></a>
-                    </div>
-                </div>
-                <!-- chat list  -->
-                <div class="chat-list">
-                    <div class="chat" v-for="(contact, index) in filteredContacts" @click="selectContact(contact)">
-                        <img :src="contact.avatar" alt="contact.name" class="avatar-img">
-                        <div class="info-contact">
-                            <h3 class="name-style">{{ contact.name }}</h3>
-                            <p class="last-message">{{ lastMessage(contact) }}</p>
-                        </div>
-                        <div>
-                            <span class="message-time">{{ hourSent(contact) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ******************************* -->
-            <!-- ******************************* -->
-            <!-- ******************************* -->
-
-            <!-- right side width 70%  -->
-            <div class="right-side">
-                <div class="right-header">
-                    <div class="contact-info">
-                        <img :src="selectedContact.avatar" alt="selectedContact.name" class="avatar-img">
-                        <div>
-                            <h3>{{ selectedContact.name }}</h3>
-                            <p>{{ lastAccess }}</p>
-                        </div>
-                    </div>
-                    <div class="icon">
-                        <a class="fas fa-search"></a>
-                        <a class="fa-solid fa-paperclip"></a>
-                        <a class="fas fa-ellipsis-v"></a>
-                    </div>
-                </div>
-                <!-- main chat -->
-                <div class="main-right">
-                    <div class="message" v-for="(message, index) in selectedContact.messages" :key="index" :class="{'message-sent': isSentMessage(message), 'message-received': !isSentMessage(message)}">
-                        <p>{{ message.message }}</p>
-                        <div>
-                            <span class="message-time">{{ formatTime(message.date) }}</span>
-                            <span class="dropdown-icon" @click="toggleDropdown(message)">
-                                <a class="fas fa-chevron-down"></a>
-                            </span>
-                            <div class="dropdown-menu" v-if="message.showDropdown">
-                                <ul>
-                                    <li @click="deleteMessage(contact, messageIndex)">Cancella messaggio</li>
-                                    <li>Info</li>
-                                </ul>
+                    <!-- notifaction  -->
+                    <div class="notification">
+                        <div class="circle">
+                            <div class="icon p-absolute">
+                                <a :class="['fas', isBellActive ? 'fa-bell' : 'fa-bell-slash']" @click="toggleBell" :title="tooltipMessage"></a>
                             </div>
                         </div>
-                        
+                        <div>
+                            <a class="a-active" :class="['notificationOn', notificationActive ? 'active' : 'inactive']">{{ notificationText }}</a>
+                            <p>{{ reciveNotification }}</p>
+                        </div>
+                    </div>
+                    <!-- search  -->
+                    <div class="search">
+                        <input type="text" v-model="searchText" placeholder="Cerca una chat">
+                        <!-- Display the contacts -->
+                        <div class="icon">
+                            <a class="fas fa-search"></a>
+                        </div>
+                    </div>
+                    <!-- chat list  -->
+                    <div class="chat-list">
+                        <div class="chat" v-for="(contact, index) in filteredContacts" @click="selectContact(contact)">
+                            <img :src="contact.avatar" alt="contact.name" class="avatar-img">
+                            <div class="info-contact">
+                                <h3 class="name-style">{{ contact.name }}</h3>
+                                <p class="last-message-chat-list">{{ lastMessage(contact) }}</p>
+                            </div>
+                            <div>
+                                <span class="message-time">{{ hourSent(contact) }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- bottom bar -->
-                <div class="bottom-bar-right">
-                    <div class="icon">
-                        <a class="fas fa-smile"></a>
-                        <a class="fas fa-paperclip"></a>
+                <!-- ******************************* -->
+                <!-- ******************************* -->
+                <!-- ******************************* -->
+
+                <!-- right side width 70%  -->
+                <div class="right-side">
+                    <div class="right-header">
+                        <div class="contact-info">
+                            <img :src="selectedContact.avatar" alt="selectedContact.name" class="avatar-img">
+                            <div>
+                                <h3>{{ selectedContact.name }}</h3>
+                                <p>{{ lastAccess }}</p>
+                            </div>
+                        </div>
+                        <div class="icon">
+                            <a class="fas fa-search"></a>
+                            <a class="fa-solid fa-paperclip"></a>
+                            <a class="fas fa-ellipsis-v"></a>
+                        </div>
+                        <!-- Dark mode toggle button -->
+                        <button class="toogle-mode-dark" @click="toggleDarkMode">Dark mode</button>
                     </div>
-                    <div class="input-message">
-                        <input v-model="newMessage" class="input" type="text" placeholder="Scrivi un messaggio">
-                        <div class="icon-justify-end">
-                            <a class="fab fa-telegram-plane"  @click="sendMessage"></a>
+                    <!-- main chat -->
+                    <div class="main-right">
+                        <div class="message" v-for="(message, index) in selectedContact.messages" :key="index" :class="{'message-sent': isSentMessage(message), 'message-received': !isSentMessage(message)}">
+                            <p>{{ message.message }}</p>
+                            <span class="message-time">{{ formatTime(message.date) }}</span>
+                            <div class="dropdown">
+                                <span class="dropdown-icon" @click="toggleDropdown(message)">
+                                    <a class="fas fa-chevron-down"></a>
+                                </span>
+                                <div class="dropdown-menu" v-if="message.showDropdown">
+                                    <ul>
+                                        <li @click="deleteMessage(contact, messageIndex)">Cancella messaggio</li>
+                                        <li>Info</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="icon">
-                        <a class="fas fa-microphone"></a>
+
+                    <!-- bottom bar -->
+                    <div class="bottom-bar-right">
+                        <div class="icon">
+                            <a class="fas fa-smile"></a>
+                            <a class="fas fa-paperclip"></a>
+                        </div>
+                        <div class="input-message">
+                            <input v-model="newMessage" class="input" type="text" placeholder="Scrivi un messaggio">
+                            <div class="icon-justify-end">
+                                <a class="fab fa-telegram-plane"  @click="sendMessage"></a>
+                            </div>
+                        </div>
+                        <div class="icon">
+                            <a class="fas fa-microphone"></a>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+            
         </div>
     </div>
-
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="./js/app.js"></script>
 </body>
