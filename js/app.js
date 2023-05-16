@@ -233,12 +233,8 @@ const app = createApp({
 
     // Function to send a new message
     sendMessage() {
-        if (this.newMessage.trim() === '') {
-          return; // Don't send empty messages
-        } else if (this.selectedContact === null) {
-          return; // Don't send messages if no contact is selected
-        } else if (this.selectedContact === undefined) {
-          return; // Don't send messages if no contact is selected
+        if (this.newMessage.trim() === ''|| this.newMessage === false)  {
+            return;
         }
       
         const currentDate = new Date();
@@ -253,18 +249,19 @@ const app = createApp({
       
         this.selectedContact.messages.push(newMessageObj);
         this.newMessage = ''; // Clear the input field
-      
+        const selectedContact = this.selectedContact;
+
         setTimeout(() => {
-          const receivedMessageObj = {
-            date: `${hours}:${minutes}`,
-            message: 'GG Bro',
-            status: 'received',
-          };
-          this.selectedContact.messages.push(receivedMessageObj);
+            const receivedMessageObj = {
+                date: `${hours}:${minutes}`,
+                message: 'GG Bro',
+                status: 'received',
+            };
+           selectedContact.messages.push(receivedMessageObj);
         }, 2000); // Delay the received message by 2 seconds
     },
       
-
+    // Function to send a new message when the user presses the Enter key
     handleKeyDown(event) {
         if (event.key === 'Enter') {
           this.sendMessage(); // Call the correct method name: sendMessage()
@@ -291,11 +288,8 @@ const app = createApp({
       
       
     // Function to delete a message
-    deleteMessage(messageId) {
-        const index = this.selectedContact.messages.findIndex(message => message.id === messageId);
-        if (index !== -1) {
-          this.selectedContact.messages.splice(index, 1);
-        }
+    deleteMessage(index) {
+        this.selectedContact.messages.splice(index, 1);
     },
     
     // Function to toggle the dropdown menu
