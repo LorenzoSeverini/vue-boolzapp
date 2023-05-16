@@ -277,14 +277,7 @@ const app = createApp({
 
     // Function to delete a message
     deleteMessage(contact, messageIndex) {
-        // Check if the contact object exists and has a messages property
-        if (contact && contact.messages) {
-            // Check if the messageIndex is within the valid range
-            if (messageIndex >= 0 && messageIndex < contact.messages.length) {
-                // Remove the message at the specified index
-                contact.messages.splice(messageIndex, 1);
-            }
-        }
+       contact.messages.splice(contact.messages.indexOf(messageIndex), 1);
     },
     
     // Function to toggle the dropdown menu
@@ -305,11 +298,12 @@ const app = createApp({
     hourSent(contact) {
         const lastMessage = contact.messages[contact.messages.length - 1];
         if (lastMessage) {
-            return `${lastMessage.date}`;
+          const messageDate = new Date(lastMessage.date);
+          return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });  
         }
         return '';
     },
-
+      
     // Function to toggle the bell icon
     toggleBell() {
         this.isBellActive = !this.isBellActive;
@@ -325,20 +319,15 @@ const app = createApp({
         } 
     
         window.addEventListener('keydown', (event) => this.handleKeyDown(event));
+
+        this.contacts.forEach(contact => {
+            contact.messages.forEach(message => {
+                message.showDropdown = false; 
+            });
+        });
     },
 
     computed: {
-
-        // Function to show the dropdown menu on click icon left header
-        circleTooltip() {
-            return this.circleDropdownActive ? 'Hide circle dropdown' : 'Show circle dropdown';
-        },
-          commentTooltip() {
-            return this.commentDropdownActive ? 'Hide comment dropdown' : 'Show comment dropdown';
-        },
-          ellipsisTooltip() {
-            return this.ellipsisDropdownActive ? 'Hide ellipsis dropdown' : 'Show ellipsis dropdown';
-        },
 
         // Function to filter contacts
         filteredContacts() {
@@ -353,6 +342,7 @@ const app = createApp({
         notificationText() {
             return this.notificationActive ? this.activeMessage : this.inactiveMessage;
         },
+
         // Function to show the tooltip
         tooltipMessage() {
             return this.isBellActive ? 'Clicca per disattivare le notifiche' : 'Clicca per attivare le notifiche';
