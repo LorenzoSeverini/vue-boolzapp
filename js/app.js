@@ -291,8 +291,11 @@ const app = createApp({
       
       
     // Function to delete a message
-    deleteMessage(contact, messageIndex) {
-       contact.messages.splice(contact.messages.indexOf(messageIndex), 1);
+    deleteMessage(messageId) {
+        const index = this.selectedContact.messages.findIndex(message => message.id === messageId);
+        if (index !== -1) {
+          this.selectedContact.messages.splice(index, 1);
+        }
     },
     
     // Function to toggle the dropdown menu
