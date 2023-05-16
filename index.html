@@ -62,7 +62,7 @@
                                     <p class="last-message-chat-list">{{ lastMessage(contact) }}</p>
                                 </div>
                                 <div>
-                                    <span class="message-time">{{ hourSent(contact) }}</span>
+                                    <span class="message-time">{{ formatTime(contact.messages[contact.messages.length - 1].date) }}</span>
                                 </div>
                             </div>
                         </div>
