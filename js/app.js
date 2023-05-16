@@ -234,31 +234,36 @@ const app = createApp({
     // Function to send a new message
     sendMessage() {
         if (this.newMessage.trim() === '') {
-            return; // Don't send empty messages
+          return; // Don't send empty messages
         } else if (this.selectedContact === null) {
-            return; // Don't send messages if no contact is selected
+          return; // Don't send messages if no contact is selected
         } else if (this.selectedContact === undefined) {
-            return; // Don't send messages if no contact is selected   
-        } 
+          return; // Don't send messages if no contact is selected
+        }
+      
+        const currentDate = new Date();
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
       
         const newMessageObj = {
-            date: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit' }),
-            message: this.newMessage,
-            status: 'sent',
+          date: `${hours}:${minutes}`,
+          message: this.newMessage,
+          status: 'sent',
         };
       
         this.selectedContact.messages.push(newMessageObj);
         this.newMessage = ''; // Clear the input field
       
         setTimeout(() => {
-            const receivedMessageObj = {
-                date: new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit' }),
-                message: 'GG Bro',
-                status: 'received',
-            };
-            this.selectedContact.messages.push(receivedMessageObj);
+          const receivedMessageObj = {
+            date: `${hours}:${minutes}`,
+            message: 'GG Bro',
+            status: 'received',
+          };
+          this.selectedContact.messages.push(receivedMessageObj);
         }, 2000); // Delay the received message by 2 seconds
     },
+      
 
     handleKeyDown(event) {
         if (event.key === 'Enter') {
@@ -269,12 +274,22 @@ const app = createApp({
     // Function to format the date
     formatTime(date) {
         const messageDate = new Date(date);
+      
         if (isNaN(messageDate.getTime())) {
-            return '';
-        } 
-        return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          // Format for new messages
+          const currentDate = new Date();
+          const hours = String(currentDate.getHours()).padStart(2, '0');
+          const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+          return `${hours}:${minutes}`;
+        } else {
+          // Format for existing messages
+          const hours = String(messageDate.getHours()).padStart(2, '0');
+          const minutes = String(messageDate.getMinutes()).padStart(2, '0');
+          return `${hours}:${minutes}`;
+        }
     },
-
+      
+      
     // Function to delete a message
     deleteMessage(contact, messageIndex) {
        contact.messages.splice(contact.messages.indexOf(messageIndex), 1);
