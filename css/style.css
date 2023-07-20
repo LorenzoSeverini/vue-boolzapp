@@ -34,6 +34,10 @@ body {
     overflow: hidden;
 }
 
+/*************/
+/* DARK MODE */
+/*************/
+
 .dark-mode {
     /* change all color settting */
     --primary-color: #3a3737;
@@ -42,22 +46,34 @@ body {
     --dark-color: #5f5d5d;
     --danger-color: #2d4d42;
     --success-color: #b8be79;
+    --ultra-white: #f5ecec;
     /* change body color */
     background-color: var(--dark-color);
     color: var(--light-color);
 }
 
 .toogle-mode-dark {
-    width: 6.25rem;
-    height: 30%;
+    width: 4rem;
+    height: 3rem;
+    margin-right: 1rem;
+    border-radius: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    background-color: var(--dark-color);
-    color: var(--primary-color);
+    background-color: var(--success-color);
 }
+
+
+.toogle-mode-dark:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/***********/
+/*  Style  */
+/***********/
 
 .container {
     max-width: 75rem;
